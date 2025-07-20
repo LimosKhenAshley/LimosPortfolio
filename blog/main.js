@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             content: `
                 <img src="images/AI teach.png" class="modal-image">
                 <h1 class="modal-title">AI Is Not a Threat—It's a Tool We’re Misusing</h1>
-                <span class="modal-date">Published on May 31, 2023 • 8 min read</span>
+                <span class="modal-date">Published on May 31, 2025 • 8 min read</span>
                 
                 <div class="modal-text">
                     <p>Artificial Intelligence (AI) has been a buzzword for years, but its recent advancements have sparked both excitement and fear. Many people worry that AI will take over jobs, make decisions for us, or even become uncontrollable. But what if I told you that AI is not the problem? The real issue lies in how we use it.</p>
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             content: `
                 <img src="images/ITP2.jpg" class="modal-image">
                 <h1 class="modal-title">College Life</h1>
-                <span class="modal-date">Published on May 31, 2023 • 6 min read</span>
+                <span class="modal-date">Published on May 31, 2025 • 6 min read</span>
                 
                 <div class="modal-text">
                     <p>College life is a unique blend of challenges and opportunities that shape us into who we are. As I reflect on my journey, I realize how much I've grown, not just academically but also personally.</p>
