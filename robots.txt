@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://limoskhenashley.github.io/LimosPortfolio/sitemap.xml

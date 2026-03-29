@@ -1,3 +1,93 @@
+// ===== Magnetic Cursor =====
+(function() {
+  const dot  = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0,  ringY = 0;
+  let magnetTarget = null;
+
+  const MAGNETIC_SELECTOR = 'a, button, .filter-btn, .about-tab, .project-card, .social-icon, .edu-prev, .edu-next, #scroll-top-btn, .floating-contact-btn';
+  const MAGNETIC_STRENGTH = 0.35;
+  const MAGNETIC_RADIUS   = 80;
+
+  // Track raw mouse
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top  = mouseY + 'px';
+  });
+
+  function animate() {
+    let targetX = mouseX;
+    let targetY = mouseY;
+    let ringW = 40, ringH = 40;
+    let isMagnetic = false;
+
+    // Find nearest magnetic element
+    const els = document.querySelectorAll(MAGNETIC_SELECTOR);
+    let closest = null, closestDist = MAGNETIC_RADIUS;
+
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const dist = Math.hypot(mouseX - cx, mouseY - cy);
+      if (dist < closestDist) { closestDist = dist; closest = el; }
+    });
+
+    if (closest) {
+      const r = closest.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+
+      // Pull ring toward element center
+      targetX = mouseX + (cx - mouseX) * MAGNETIC_STRENGTH;
+      targetY = mouseY + (cy - mouseY) * MAGNETIC_STRENGTH;
+
+      // Ring resizes to wrap the element
+      ringW = Math.max(r.width  + 20, 40);
+      ringH = Math.max(r.height + 16, 40);
+      isMagnetic = true;
+    }
+
+    // Lerp ring position
+    ringX += (targetX - ringX) * 0.14;
+    ringY += (targetY - ringY) * 0.14;
+
+    ring.style.left   = ringX + 'px';
+    ring.style.top    = ringY + 'px';
+    ring.style.width  = ringW + 'px';
+    ring.style.height = ringH + 'px';
+    ring.style.borderRadius = isMagnetic ? '12px' : '50%';
+
+    ring.classList.toggle('magnetic', isMagnetic);
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Click effect
+  document.addEventListener('mousedown', () => {
+    dot.classList.add('clicking');
+    ring.classList.add('clicking');
+  });
+  document.addEventListener('mouseup', () => {
+    dot.classList.remove('clicking');
+    ring.classList.remove('clicking');
+  });
+
+  // Hide when cursor leaves window
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity  = '0';
+    ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity  = '1';
+    ring.style.opacity = '1';
+  });
+})();
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // Smooth scrolling for anchor links
@@ -14,14 +104,23 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const darkModeToggle = document.querySelector('.dark-mode-toggle');
 const darkModeIcon = darkModeToggle.querySelector('i');
 
+// Restore saved dark mode preference
+if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    darkModeIcon.classList.remove('fa-moon');
+    darkModeIcon.classList.add('fa-sun');
+}
+
 darkModeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     if (document.body.classList.contains('dark-mode')) {
         darkModeIcon.classList.remove('fa-moon');
         darkModeIcon.classList.add('fa-sun');
+        localStorage.setItem('darkMode', 'enabled');
     } else {
         darkModeIcon.classList.remove('fa-sun');
         darkModeIcon.classList.add('fa-moon');
+        localStorage.setItem('darkMode', 'disabled');
     }
 });
 
@@ -30,14 +129,11 @@ const burger = document.querySelector('.burger');
 const navLinks = document.querySelector('.nav-links');
 
 burger.addEventListener('click', () => {
-  // Toggle nav visibility
   navLinks.classList.toggle('active');
-  
-  // Animate burger icon
   burger.classList.toggle('active');
-  
-  // Optional: Prevent scrolling when menu is open
-  document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+  const isOpen = navLinks.classList.contains('active');
+  burger.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
 // Close menu when clicking a link
@@ -47,6 +143,30 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     burger.classList.remove('active');
     document.body.style.overflow = '';
   });
+});
+
+// ===== Scroll Spy =====
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, {
+    rootMargin: '-40% 0px -55% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(section => observer.observe(section));
 });
 
 //Underlines in navigation menu
@@ -61,17 +181,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ===== Hero Stat Counters =====
+document.addEventListener('DOMContentLoaded', () => {
+  const statNums = document.querySelectorAll('.hero-stat-num');
+  let counted = false;
+
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      statNums.forEach(el => {
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const step = Math.ceil(target / 30);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current;
+          if (current >= target) clearInterval(timer);
+        }, 40);
+      });
+    }
+  }, { threshold: 0.5 });
+
+  const heroContent = document.querySelector('.hero-stats');
+  if (heroContent) observer.observe(heroContent);
+});
+
+// ===== Scroll Indicator =====
+document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
+  document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+});
+
 //Decrypting effect
 document.addEventListener('DOMContentLoaded', () => {
     const decodingText = document.getElementById('decoding-text');
     const sentences = [
-        "Welcome to My Portfolio",
-        "I'm a Web Developer",
-        "A Software Developer",
-        "A Tech Enthusiast",
-        "A Problem Solver",
-        "A Lifelong Learner",
-        "Likes to Create Solutions to Problems"
+        "Khen Ashley Limos",
+        "IT Specialist",
+        "Full-Stack Developer",
+        "Problem Solver",
+        "Hackathon Champion",
+        "Lifelong Learner",
+        "Building Solutions"
     ];
     let sentenceIndex = 0;
     let charIndex = 0;
@@ -188,30 +338,107 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => observer.observe(section));
 });
 
-// ===== Project Card Flip Animation =====
-document.querySelectorAll('.project-card').forEach(card => {
-    // Add touch support for mobile devices
-    card.addEventListener('touchstart', function() {
-        this.classList.toggle('hover');
-    }, {passive: true});
-    
-    // Click to flip on desktop (alternative to hover)
-    card.addEventListener('click', function() {
-        if (window.innerWidth > 768) return; // Only use click on mobile
-        this.querySelector('.project-card-inner').style.transform = 
-            this.querySelector('.project-card-inner').style.transform === 'rotateY(180deg)' 
-            ? 'rotateY(0deg)' 
-            : 'rotateY(180deg)';
-    });
+// ===== Scroll to Top =====
+const scrollTopBtn = document.getElementById('scroll-top-btn');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+});
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Handle window resize for better mobile/desktop switching
-window.addEventListener('resize', function() {
-    document.querySelectorAll('.project-card-inner').forEach(card => {
-        if (window.innerWidth > 768) {
-            card.style.transform = 'rotateY(0deg)';
-        }
+// ===== About Tabs =====
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.about-tab');
+  const panels = document.querySelectorAll('.about-tab-panel');
+  let ringsAnimated = false;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.getElementById('tab-' + tab.dataset.tab);
+      target.classList.add('active');
+
+      if (tab.dataset.tab === 'skills' && !ringsAnimated) {
+        ringsAnimated = true;
+        setTimeout(() => {
+          document.querySelectorAll('.ring-fill').forEach((ring, i) => {
+            const filled = (parseInt(ring.dataset.level) / 100) * 251.2;
+            setTimeout(() => {
+              ring.style.strokeDasharray = `${filled} ${251.2 - filled}`;
+            }, i * 120);
+          });
+        }, 50);
+      }
     });
+  });
+});
+
+// ===== Circular Progress Rings =====
+document.addEventListener('DOMContentLoaded', () => {
+  const svgDefs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgDefs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+  svgDefs.innerHTML = `
+    <defs>
+      <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#1abc9c"/>
+        <stop offset="100%" stop-color="#3498db"/>
+      </linearGradient>
+    </defs>`;
+  document.body.prepend(svgDefs);
+});
+
+// ===== Project Cards =====
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.project-card');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // --- Entrance animation on scroll ---
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 150);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cards.forEach(card => observer.observe(card));
+
+  // --- Filter tabs ---
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+      });
+    });
+  });
+
+  // --- Mobile flip on tap ---
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      if (window.innerWidth > 768) return;
+      const inner = card.querySelector('.project-card-inner');
+      const isFlipped = inner.style.transform === 'rotateY(180deg)';
+      inner.style.transition = 'transform 0.8s';
+      inner.style.transform = isFlipped ? 'rotateY(0deg)' : 'rotateY(180deg)';
+    });
+  });
+
+  // Reset on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      cards.forEach(card => {
+        card.querySelector('.project-card-inner').style.transform = '';
+      });
+    }
+  });
 });
 
 // ===== Console Text Animation =====
@@ -301,156 +528,116 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ===== Circuit Board Animation =====
-document.addEventListener('DOMContentLoaded', function() {
-  const svg = document.getElementById('circuit-board');
-  const tooltip = document.querySelector('.circuit-tooltip');
-  
-  // Skill data
-  const skills = [
-    { name: "Communication", level: 92, color: "#4a90e2", connections: [1, 2] },
-    { name: "Teamwork", level: 88, color: "#00d4ff", connections: [0, 3] },
-    { name: "Problem Solving", level: 95, color: "#7fdbff", connections: [0, 4] },
-    { name: "Creativity", level: 90, color: "#ff851b", connections: [1, 4] },
-    { name: "Adaptability", level: 85, color: "#ff4136", connections: [2, 3] },
-    { name: "Time Management", level: 93, color: "#2ecc40", connections: [1, 4] }
-  ];
+// ===== Education Carousel =====
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.edu-carousel-track');
+  const wrapper = document.querySelector('.edu-carousel-track-wrapper');
+  const prevBtn = document.querySelector('.edu-prev');
+  const nextBtn = document.querySelector('.edu-next');
 
-  // Generate random circuit layout positions
-  const positions = [];
-  const padding = 100;
-  for (let i = 0; i < skills.length; i++) {
-    positions.push({
-      x: padding + Math.random() * (700 - padding * 2),
-      y: padding + Math.random() * (300 - padding * 2)
-    });
+  // Grab original slides before cloning
+  const origSlides = Array.from(track.children);
+  const total = origSlides.length;
+
+  // Clone first and last for infinite loop
+  const firstClone = origSlides[0].cloneNode(true);
+  const lastClone  = origSlides[total - 1].cloneNode(true);
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, origSlides[0]);
+
+  // All slides: [lastClone, ...originals, firstClone]
+  const allSlides = Array.from(track.children);
+  let current = 1; // start on first real slide (index 1)
+  let locked = false;
+
+  function slideWidth() {
+    return allSlides[1].getBoundingClientRect().width + 12; // width + gap
   }
 
-  // Draw circuit paths
-  skills.forEach((skill, i) => {
-    skill.connections.forEach(conn => {
-      if (conn > i) { // Prevent duplicate paths
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const start = positions[i];
-        const end = positions[conn];
-        
-        // Create curved path
-        const midX = (start.x + end.x) / 2;
-        const midY = (start.y + end.y) / 2;
-        const ctrlX = midX + (Math.random() - 0.5) * 100;
-        const ctrlY = midY + (Math.random() - 0.5) * 100;
-        
-        path.setAttribute("d", `M${start.x},${start.y} Q${ctrlX},${ctrlY} ${end.x},${end.y}`);
-        path.classList.add("circuit-path");
-        path.style.stroke = skills[i].color;
-        svg.appendChild(path);
+  function moveTo(index, animate) {
+    track.style.transition = animate ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none';
+    track.style.transform = `translateX(${-index * slideWidth()}px)`;
+    allSlides.forEach((s, i) => s.classList.toggle('active', i === index));
+  }
+
+  // Initial position — no animation
+  moveTo(current, false);
+
+  function next() {
+    if (locked) return;
+    locked = true;
+    current++;
+    moveTo(current, true);
+  }
+
+  function prev() {
+    if (locked) return;
+    locked = true;
+    current--;
+    moveTo(current, true);
+  }
+
+  track.addEventListener('transitionend', () => {
+    // Silently jump from clone to real slide
+    if (current === allSlides.length - 1) {
+      current = 1;
+      moveTo(current, false);
+    } else if (current === 0) {
+      current = allSlides.length - 2;
+      moveTo(current, false);
+    }
+    locked = false;
+  });
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+  window.addEventListener('resize', () => moveTo(current, false));
+});
+
+// ===== About Tabs =====
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.about-tab');
+  const panels = document.querySelectorAll('.about-tab-panel');
+  let ringsAnimated = false;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+
+      tab.classList.add('active');
+      const target = document.getElementById('tab-' + tab.dataset.tab);
+      target.classList.add('active');
+
+      // Trigger rings animation when skills tab opens for the first time
+      if (tab.dataset.tab === 'skills' && !ringsAnimated) {
+        ringsAnimated = true;
+        setTimeout(() => {
+          document.querySelectorAll('.ring-fill').forEach((ring, i) => {
+            const filled = (parseInt(ring.dataset.level) / 100) * 251.2;
+            setTimeout(() => {
+              ring.style.strokeDasharray = `${filled} ${251.2 - filled}`;
+            }, i * 120);
+          });
+        }, 50);
       }
     });
   });
+});
 
-  // Draw circuit nodes (skills)
-  skills.forEach((skill, i) => {
-    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    group.setAttribute("transform", `translate(${positions[i].x},${positions[i].y})`);
-    
-    // Outer glow
-    const glow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    glow.setAttribute("r", "24");
-    glow.setAttribute("fill", skill.color);
-    glow.setAttribute("opacity", "0.3");
-    glow.setAttribute("class", "circuit-glow");
-    group.appendChild(glow);
-    
-    // Main node
-    const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    node.setAttribute("r", "20");
-    node.setAttribute("fill", skill.color);
-    node.setAttribute("class", "circuit-node");
-    group.appendChild(node);
-    
-    // Skill abbreviation text
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("dy", "5");
-    text.setAttribute("fill", "white");
-    text.setAttribute("font-family", "'Courier New', monospace");
-    text.setAttribute("font-weight", "bold");
-    text.textContent = skill.name.split(' ').map(w => w[0]).join('');
-    group.appendChild(text);
-    
-    // Add interactivity
-    group.addEventListener('mouseenter', () => showTooltip(skill, positions[i]));
-    group.addEventListener('mouseleave', hideTooltip);
-    
-    svg.appendChild(group);
-  });
-
-  // Add random smaller components
-  for (let i = 0; i < 50; i++) {
-    const x = Math.random() * 1000;
-    const y = Math.random() * 700;
-    const type = Math.random() > 0.5 ? "rect" : "circle";
-    
-    const component = document.createElementNS("http://www.w3.org/2000/svg", type);
-    if (type === "rect") {
-      component.setAttribute("width", "8");
-      component.setAttribute("height", "16");
-      component.setAttribute("x", x);
-      component.setAttribute("y", y);
-      component.setAttribute("rx", "2");
-    } else {
-      component.setAttribute("r", "6");
-      component.setAttribute("cx", x);
-      component.setAttribute("cy", y);
-    }
-    
-    component.setAttribute("fill", "#4a90e2");
-    component.setAttribute("opacity", "0.6");
-    svg.appendChild(component);
-  }
-
-  // Tooltip functions
-  function showTooltip(skill, pos) {
-    tooltip.innerHTML = `
-      <h3>${skill.name}</h3>
-      <div class="skill-meter">
-        <div class="skill-meter-fill" style="width: ${skill.level}%"></div>
-      </div>
-      <p>${getSkillDescription(skill.name)}</p>
-    `;
-    
-    tooltip.style.left = `${pos.x + 30}px`;
-    tooltip.style.top = `${pos.y}px`;
-    tooltip.style.opacity = "1";
-  }
-
-  function hideTooltip() {
-    tooltip.style.opacity = "0";
-  }
-
-  function getSkillDescription(skillName) {
-    const descriptions = {
-      "Communication": "Effectively conveys ideas through verbal and written means across all organizational levels.",
-      "Teamwork": "Collaborates seamlessly with cross-functional teams to achieve common goals.",
-      "Problem Solving": "Systematically breaks down complex issues to develop innovative solutions.",
-      "Creativity": "Generates unique ideas and approaches to overcome challenges.",
-      "Adaptability": "Quickly adjusts to new environments and changing requirements.",
-      "Time Mgmt": "Efficiently prioritizes and executes tasks to meet deadlines."
-    };
-    return descriptions[skillName] || "Highly developed professional skill.";
-  }
-
-  // Animate paths
-  const paths = document.querySelectorAll('.circuit-path');
-  paths.forEach((path, i) => {
-    const length = path.getTotalLength();
-    path.style.strokeDasharray = `${length} ${length}`;
-    path.style.strokeDashoffset = length;
-    path.style.transition = `stroke-dashoffset ${2 + i * 0.5}s ease-in-out`;
-    setTimeout(() => {
-      path.style.strokeDashoffset = '0';
-    }, 100);
-  });
+// ===== Circular Progress Rings =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Inject shared SVG gradient
+  const svgDefs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgDefs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+  svgDefs.innerHTML = `
+    <defs>
+      <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#1abc9c"/>
+        <stop offset="100%" stop-color="#3498db"/>
+      </linearGradient>
+    </defs>`;
+  document.body.prepend(svgDefs);
 });
 
 function initFloatingImages() {
@@ -649,28 +836,6 @@ const cleanupFloatingImages = initFloatingImages();
 
 // Call cleanupFloatingImages() when needed (e.g., on page transition)
 
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', initFloatingImages);
-
-// Debounce resize events
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    // Handle resize logic
-  }, 100);
-});
-
-// Throttle animation frame events
-let lastAnimationTime = 0;
-function animateFloatingImages(timestamp) {
-  if (timestamp - lastAnimationTime > 16) { // ~60fps
-    // Animation logic
-    lastAnimationTime = timestamp;
-  }
-  requestAnimationFrame(animateFloatingImages);
-}
-
 // Add keyboard navigation for dark mode toggle
 darkModeToggle.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' || e.key === ' ') {
@@ -860,24 +1025,4 @@ document.querySelectorAll('.recognition-card').forEach(card => {
   card.addEventListener('touchstart', () => {
     card.classList.toggle('show-badge');
   }, { passive: true });
-});
-
-// Add subtle mouse-follow tilt to cards
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const angleX = (y - centerY) / 20;
-    const angleY = (centerX - x) / 20;
-    
-    card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-  });
-  
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
 });

@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khen Ashley Limos</title>
+    <meta name="description" content="Khen Ashley Limos - Information Technology graduate and developer specializing in C#, Java, Python, and web technologies.">
+    <meta property="og:title" content="Khen Ashley Limos | Developer Portfolio">
+    <meta property="og:description" content="Information Technology graduate and developer specializing in C#, Java, Python, and web technologies.">
+    <meta property="og:image" content="images/Profile pic.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Khen Ashley Limos | Developer Portfolio">
+    <meta name="twitter:description" content="Information Technology graduate and developer specializing in C#, Java, Python, and web technologies.">
+    <meta name="twitter:image" content="images/Profile pic.jpg">
     <!-- For ICO -->
     <link rel="icon" href="images/KA Logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
     <body>
@@ -25,10 +32,10 @@
                     <li><a href="#social-media">Social</a></li>
                     <li><a href="blog/index.html">Blog</a></li>
                 </ul>
-                <div class="dark-mode-toggle">
-                    <i class="fas fa-moon"></i> <!-- Moon icon for dark mode -->
+                <div class="dark-mode-toggle" role="button" aria-label="Toggle dark mode" tabindex="0">
+                    <i class="fas fa-moon"></i>
                 </div>
-                <div class="burger">
+                <div class="burger" role="button" aria-label="Toggle navigation menu" aria-expanded="false" tabindex="0">
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
@@ -38,15 +45,43 @@
 
         <!--Home Section-->
         <section id="home" class="hero">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
             <div class="hero-content">
                 <h1 id="decoding-text"></h1>
-                <p class="subtitle">A Developer who is always curious and passionate about creating solutions.</p>
-                <a href="resume/Limos, Khen Ashley D. Industrial Resume.pdf" download="Limos_Khen_Ashley_CV.pdf" class="btn">
-                    <i class="fas fa-download"></i> Download CV
-                </a>
+                <p class="subtitle">Hi, I'm <strong>Khen Ashley Limos</strong> — an IT specializing in System Development &amp; Web Technologies.</p>
+                <div class="hero-btns">
+                    <a href="resume/Limos, Khen Ashley D. Industrial Resume.pdf" download="Limos_Khen_Ashley_CV.pdf" class="btn">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                    <a href="#projects" class="btn btn-outline">
+                        <i class="fas fa-folder-open"></i> View Projects
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-target="3">0</span>
+                        <span class="hero-stat-label">Projects</span>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-target="2">0</span>
+                        <span class="hero-stat-label">Degrees</span>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-target="1">0</span>
+                        <span class="hero-stat-label">Hackathon Win</span>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-target="9">0</span>
+                        <span class="hero-stat-label">Awards</span>
+                    </div>
+                </div>
             </div>
             <div class="floating-images">
-                <img src="images/C sharp logo.png" alt="C#" class="floating-image" style="left: 20%; top: 30%;"">
+                <img src="images/C sharp logo.png" alt="C#" class="floating-image" style="left: 20%; top: 30%;">
                 <img src="images/Python.png" alt="Python" class="floating-image" style="left: 40%; top: 50%;">
                 <img src="images/Java.png" alt="Java" class="floating-image" style="left: 60%; top: 20%;">
                 <img src="images/js logo.webp" alt="JavaScript" class="floating-image" style="left: 80%; top: 40%;">
@@ -59,63 +94,108 @@
                 <img src="images/FireBase.png" alt="Firebase" class="floating-image" style="left: 60%; top: 50%;">
                 <img src="images/SQLite.png" alt="SQLite" class="floating-image" style="left: 80%; top: 20%;">
             </div>
+            <!-- Wave divider -->
+            <div class="hero-wave">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f9f9f9"/>
+                </svg>
+            </div>
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator" aria-label="Scroll down">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </section>
 
         <!--About Me Section-->
         <section id="about" class="about-section">
-            <div class="section-header">
-                <h2>About Me</h2>
+            <div class="about-layout">
 
-                <!-- 3D Avatar Column -->
-                <div class="avatar-column">
-                    <div id="avatar-container" class="avatar-container">
-                        <!-- Three.js will inject 3D model here -->
-                        <img src="images/Profile pic.jpg" alt="Khen Ashley" class="fallback-avatar"">
-                    </div>
+                <!-- Left: Photo -->
+                <div class="about-photo-col">
+                    <img src="images/Profile pic.jpg" alt="Khen Ashley" class="about-portrait">
                 </div>
 
-                <div class="console-container">
-                    <div class="console-header">
-                    <span class="console-dot red"></span>
-                    <span class="console-dot yellow"></span>
-                    <span class="console-dot green"></span>
-                    <span class="console-title">khen_ashley_terminal</span>
+                <!-- Right: Tabbed Info -->
+                <div class="about-info-col">
+                    <h2>About Me</h2>
+
+                    <!-- Tab Navigation -->
+                    <div class="about-tabs">
+                        <button class="about-tab active" data-tab="terminal"><i class="fas fa-terminal"></i> Terminal</button>
+                        <button class="about-tab" data-tab="education"><i class="fas fa-graduation-cap"></i> Education</button>
+                        <button class="about-tab" data-tab="skills"><i class="fas fa-brain"></i> Skills</button>
                     </div>
-                    <div id="console-text"></div>
-                </div>
-            </div>
-        
-            <div class="about-grid">
-        
-            <!-- Timeline Column -->
-            <div class="timeline-column">
-                <div class="about-timeline">
-                    <div class="timeline-item" data-year="2023">
-                        <div class="timeline-content">
-                            <h3>STI College Alaminos</h3>
-                            <p>Information Technology</p>
-                            <p>Graduated with a degree in Information Technology.</p>
-                            <div class="skills-used">
-                                <span>C#</span>
-                                <span>Python</span>
-                                <span>Java</span>
-                                <span>JavaScript</span>
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>SQL</span>
-                                <span>Android Studio</span>
-                                <span>.Net Framework</span>
-                                <span>MAUI</span>
-                                <span>Firebase</span>
-                                <span>SQLite</span>
+
+                    <!-- Tab Panels -->
+                    <div class="about-tab-panel active" id="tab-terminal">
+                        <div class="console-container">
+                            <div class="console-header">
+                                <span class="console-dot red"></span>
+                                <span class="console-dot yellow"></span>
+                                <span class="console-dot green"></span>
+                                <span class="console-title">khen_ashley_terminal</span>
+                            </div>
+                            <div id="console-text"></div>
+                        </div>
+                    </div>
+
+                    <div class="about-tab-panel" id="tab-education">
+                        <div class="edu-carousel">
+                            <h3 class="edu-carousel-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                            <div class="edu-carousel-body">
+                                <button class="edu-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                                <div class="edu-carousel-track-wrapper">
+                                    <div class="edu-carousel-track">
+                                    <div class="edu-slide">
+                                        <div class="edu-slide-year">2025 – Present</div>
+                                        <div class="edu-slide-content">
+                                            <h4>PHINMA - University of Pangasinan</h4>
+                                            <p class="edu-degree">Bachelor of Science in Information Technology</p>
+                                            <p class="edu-status current"><i class="fas fa-circle"></i> Currently Enrolled</p>
+                                            <div class="skills-used">
+                                                <span>Web Development</span>
+                                                <span>Data Structures</span>
+                                                <span>Algorithms</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="edu-slide">
+                                        <div class="edu-slide-year">2021 – 2023</div>
+                                        <div class="edu-slide-content">
+                                            <h4>STI College Alaminos</h4>
+                                            <p class="edu-degree">Associate in Information Technology</p>
+                                            <p class="edu-status graduated"><i class="fas fa-check-circle"></i> Graduated</p>
+                                            <div class="skills-used">
+                                                <span>C#</span><span>Python</span><span>Java</span>
+                                                <span>JavaScript</span><span>HTML</span><span>CSS</span>
+                                                <span>SQL</span><span>Android Studio</span>
+                                                <span>.Net Framework</span><span>MAUI</span>
+                                                <span>Firebase</span><span>SQLite</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <button class="edu-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="edu-carousel-controls"><div class="edu-dots"><span class="edu-dot active"></span><span class="edu-dot"></span></div></div>
+                        </div>
+                    </div>
+
+                    <div class="about-tab-panel" id="tab-skills">
+                        <div class="rings-row">
+                            <h3 class="rings-title"><i class="fas fa-brain"></i> Soft Skills</h3>
+                            <div class="rings-grid">
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="92"/><text class="ring-pct" x="50" y="55">92%</text></svg><p class="ring-label">Communication</p></div>
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="88"/><text class="ring-pct" x="50" y="55">88%</text></svg><p class="ring-label">Teamwork</p></div>
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="95"/><text class="ring-pct" x="50" y="55">95%</text></svg><p class="ring-label">Problem Solving</p></div>
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="90"/><text class="ring-pct" x="50" y="55">90%</text></svg><p class="ring-label">Creativity</p></div>
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="85"/><text class="ring-pct" x="50" y="55">85%</text></svg><p class="ring-label">Adaptability</p></div>
+                                <div class="ring-item"><svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fill" cx="50" cy="50" r="40" data-level="93"/><text class="ring-pct" x="50" y="55">93%</text></svg><p class="ring-label">Time Management</p></div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
-                <div class="circuit-container">
-                    <svg id="circuit-board" viewBox="0 0 800 500"></svg>
-                    <div class="circuit-tooltip"></div>
+
                 </div>
             </div>
         </section>
@@ -123,9 +203,18 @@
         <!-- Projects Section -->
         <section id="projects" class="projects">
             <h2>My Projects</h2>
+
+            <!-- Filter Tabs -->
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="desktop">Desktop</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+            </div>
+
             <div class="project-grid">
                 <!-- Project 1 -->
-                <div class="project-card">
+                <div class="project-card" data-category="desktop">
                     <div class="project-card-inner">
                         <div class="project-card-front">
                             <div class="project-preview">
@@ -135,48 +224,48 @@
                         </div>
                         <div class="project-card-back">
                             <p class="tech-stack"><i class="fas fa-code"></i> C#, MAUI, .NET, SQL</p>
-                            <p class="project-desc">CommUnityHub is a digital solution designed to modernize and streamline barangay operations. The system aims to simplify administrative tasks, improve document management, enhance payment processing, and provide easy access to community resources. This project was developed to assist Barangay Seselangen in handling residents' records, generating official documents, managing payments, and promoting efficiency and transparency in governance.</p>
+                            <p class="project-desc">A digital solution that modernizes barangay operations — handling residents' records, generating official documents, managing payments, and promoting transparency in local governance for Barangay Seselangen.</p>
                             <div class="project-links">
-                                <a href="https://drive.google.com/drive/folders/17UceRLrFrvmgczdglgg8YzI2lSc9_kiy?usp=sharing" class="demo-btn" target="_blank"><i class="fas fa-external-link-alt"></i>Demo</a>
-                                <a href="https://github.com/Kheizer-dev/CommUnityHub.git" class="github-btn"><i class="fab fa-github"></i> Code</a>
+                                <a href="https://drive.google.com/drive/folders/17UceRLrFrvmgczdglgg8YzI2lSc9_kiy?usp=sharing" class="demo-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                <a href="https://github.com/Kheizer-dev/CommUnityHub.git" class="github-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Code</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card">
+                <div class="project-card" data-category="mobile">
                     <div class="project-card-inner">
                         <div class="project-card-front">
                             <div class="project-preview">
-                                <img src="images/Finder's Keepers Application Logo.png" alt="Project 2" loading="lazy">
+                                <img src="images/Finder's Keepers Application Logo.png" alt="Finders Keepers" loading="lazy">
                             </div>
                             <h3>Finders Keepers</h3>
                         </div>
                         <div class="project-card-back">
-                            <p class="tech-stack"><i class="fas fa-code"></i> Java, Android Studio, FireBase, SQLite</p>
-                            <p class="project-desc">Geo Locating App for Lost and Found Items.</p>
+                            <p class="tech-stack"><i class="fas fa-code"></i> Java, Android Studio, Firebase, SQLite</p>
+                            <p class="project-desc">A geo-location Android app that helps users report and find lost items. Users can pin lost items on a map, browse nearby finds, and connect with finders — making item recovery faster and community-driven.</p>
                             <div class="project-links">
-                                <a href="https://github.com/LimosKhenAshley/FindersKeepers" class="github-btn"><i class="fab fa-github"></i> Code</a>
+                                <a href="https://github.com/LimosKhenAshley/FindersKeepers" class="github-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Code</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 3 -->
-                <div class="project-card">
+                <div class="project-card" data-category="mobile">
                     <div class="project-card-inner">
                         <div class="project-card-front">
                             <div class="project-preview">
-                                <img src="images/Manga App Logo.png" alt="Project 3" loading="lazy">
+                                <img src="images/Manga App Logo.png" alt="Manga App" loading="lazy">
                             </div>
                             <h3>Manga App</h3>
                         </div>
                         <div class="project-card-back">
                             <p class="tech-stack"><i class="fas fa-code"></i> Java, Android Studio, SQLite</p>
-                            <p class="project-desc">A Manga/Manhua/Manhwa app for Reading different kinds and genre.</p>
+                            <p class="project-desc">An Android reading app for Manga, Manhua, and Manhwa. Features include browsing by genre, bookmarking chapters, offline reading via local SQLite storage, and a clean reader interface optimized for mobile screens.</p>
                             <div class="project-links">
-                                <a href="https://github.com/LimosKhenAshley/MangaLim" class="github-btn"><i class="fab fa-github"></i> Code</a>
+                                <a href="https://github.com/LimosKhenAshley/MangaLim" class="github-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Code</a>
                             </div>
                         </div>
                     </div>
@@ -193,7 +282,7 @@
                 <div class="recognition-badge">
                   <i class="fas fa-certificate"></i>
                 </div>
-                <img src="images/Java.png" alt="Java Certification">
+                <img src="images/Java.png" alt="Java Certification" loading="lazy">
                 <div class="recognition-details">
                   <h3>Java Fundamentals</h3>
                   <p class="recognition-meta">
@@ -201,7 +290,7 @@
                     <span class="recognition-date">14th June 2024</span>
                   </p>
                   <p>Issued by Oracle Academy for Satisfactory Completion of All Coursework</p>
-                  <a href="certificates/Java Fundamentals Certificate.pdf" class="recognition-link" target="_blank">View Credential</a>
+                  <a href="certificates/Java Fundamentals Certificate.pdf" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
           
@@ -225,114 +314,79 @@
               </div>
           
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Capstone of The Year">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Capstone of the Year.jpg" alt="Capstone of The Year" loading="lazy">
                 <div class="recognition-details">
                   <h3>Capstone of The Year</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
-                  <p>The team's excellence in system design, implementation, presentation, and client satisfaction, combined with their innovation, problem-solving, and attention to detail, has set the highest standard for Capstone projects during the academic year.</p>
-                  <a href="certificates/Capstone of the Year.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
+                  <p>The team's excellence in system design, implementation, presentation, and client satisfaction has set the highest standard for Capstone projects during the academic year.</p>
+                  <a href="certificates/Capstone of the Year.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Visual Design">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Visual Design.jpg" alt="Best in Visual Design" loading="lazy">
                 <div class="recognition-details">
                   <h3>Best in Visual Design</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
-                  <p>The team's attention to detail, creativity, and ability to design an intuitive and aesthetically pleasing interface sets a high standard for visual design excellence during the Capstone Presentation.</p>
-                  <a href="certificates/Visual Design.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
+                  <p>The team's attention to detail, creativity, and ability to design an intuitive and aesthetically pleasing interface sets a high standard for visual design excellence.</p>
+                  <a href="certificates/Visual Design.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Best Client Feedback">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Best Client Feedback.jpg" alt="Best Client Feedback" loading="lazy">
                 <div class="recognition-details">
                   <h3>Best Client Feedback</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
-                  <p> Highest Praise from its intended end users or clients.</p>
-                  <a href="certificates/Best Client Feedback.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
+                  <p>Highest Praise from its intended end users or clients.</p>
+                  <a href="certificates/Best Client Feedback.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Best Code Quality">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Best Code Quality.jpg" alt="Best Code Quality" loading="lazy">
                 <div class="recognition-details">
                   <h3>Best Code Quality</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
                   <p>Exceptional Coding Standards and Exemplary use of design principles and patterns.</p>
-                  <a href="certificates/Best Code Quality.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <a href="certificates/Best Code Quality.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Best UI and UX">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Best UI and UX.jpg" alt="Best UI and UX" loading="lazy">
                 <div class="recognition-details">
                   <h3>Best UI and UX</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
                   <p>Exceptional achievement in crafting the most user-friendly and visually appealing interface, paired with an intuitive and seamless user experience.</p>
-                  <a href="certificates/Best UI and UX.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <a href="certificates/Best UI and UX.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Oustanding Presentation">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Oustanding Pres.jpg" alt="Outstanding Presentation" loading="lazy">
                 <div class="recognition-details">
-                  <h3>Oustanding Presentation</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
-                  <p>Exceptional Ability to deliver the most professional, engaging, and informative presentation.</p>
-                  <a href="certificates/Oustanding Pres.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <h3>Outstanding Presentation</h3>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
+                  <p>Exceptional ability to deliver the most professional, engaging, and informative presentation.</p>
+                  <a href="certificates/Oustanding Pres.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
               <div class="recognition-card" data-type="certificate" data-achievement="Capstone" data-category="academic">
-                <div class="recognition-badge">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <img src="images/C sharp logo.png" alt="Best System Design">
+                <div class="recognition-badge"><i class="fas fa-certificate"></i></div>
+                <img src="certificates/Best System Design.jpg" alt="Best System Design" loading="lazy">
                 <div class="recognition-details">
                   <h3>Best System Design</h3>
-                  <p class="recognition-meta">
-                    <span class="recognition-type">Certificate</span>
-                    <span class="recognition-date">13th December 2024</span>
-                  </p>
-                  <p>Excellence in demonstrating the most innovative and efficient system architechture and design during the capstone presentation.</p>
-                  <a href="certificates/Best System Design.jpg" class="recognition-link" target="_blank">View Credential</a>
+                  <p class="recognition-meta"><span class="recognition-type">Certificate</span><span class="recognition-date">13th December 2024</span></p>
+                  <p>Excellence in demonstrating the most innovative and efficient system architecture and design during the capstone presentation.</p>
+                  <a href="certificates/Best System Design.jpg" class="recognition-link" target="_blank" rel="noopener noreferrer">View Credential</a>
                 </div>
               </div>
 
@@ -340,7 +394,7 @@
                 <div class="recognition-badge">
                   <i class="fas fa-trophy"></i>
                 </div>
-                <img src="certificates/Estadistika Mulat 2021 Champion.png" alt="Estadistika Mulat 2021 Champion">
+                <img src="certificates/Estadistika Mulat 2021 Champion.png" alt="Estadistika Mulat 2021 Champion" loading="lazy">
                 <div class="recognition-details">
                   <h3>Estadistika Mulat 2021 Champion</h3>
                   <p class="recognition-meta">
@@ -348,7 +402,7 @@
                     <span class="recognition-date">2021</span>
                   </p>
                   <p>Vlog Making Contest</p>
-                  <a href="certificates/Estadistika Mulat 2021 Champion.png" class="recognition-link" target="_blank">View Image</a>
+                  <a href="certificates/Estadistika Mulat 2021 Champion.png" class="recognition-link" target="_blank" rel="noopener noreferrer">View Image</a>
                 </div>
               </div>
             </div>
@@ -361,21 +415,13 @@
               <input type="text" name="name" placeholder="Your Name" required>
               <input type="email" name="email" placeholder="Your Email" required>
               <textarea name="message" placeholder="Your Message" required></textarea>
-              
-              <!-- Honeypot field for spam prevention -->
               <input type="text" name="_gotcha" style="display:none">
-              
-              <!-- Custom redirect after success (optional) -->
-              <input type="hidden" name="_next" value="https://yourdomain.com/thanks.html">
-              
-              <!-- Email subject -->
+              <input type="hidden" name="_next" value="https://limoskhenashley.github.io/LimosPortfolio/">
               <input type="hidden" name="_subject" value="New message from portfolio!">
-              
               <button type="submit" id="submit-btn">
                 <span id="btn-text">Send Message</span>
                 <div id="btn-spinner" class="spinner"></div>
               </button>
-              
               <div id="form-status"></div>
             </form>
           </section>
@@ -384,16 +430,16 @@
         <section id="social-media" class="social-media">
             <h2>Connect With Me</h2>
             <div class="social-icons">
-                <a href="https://x.com/Kkhheennyy" target="_blank" class="social-icon">
+                <a href="https://x.com/Kkhheennyy" target="_blank" rel="noopener noreferrer" class="social-icon">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="https://github.com/LimosKhenAshley" target="_blank" class="social-icon">
+                <a href="https://github.com/LimosKhenAshley" target="_blank" rel="noopener noreferrer" class="social-icon">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/khen-ashley-limos-ab6171328/" target="_blank" class="social-icon">
+                <a href="https://www.linkedin.com/in/khen-ashley-limos-ab6171328/" target="_blank" rel="noopener noreferrer" class="social-icon">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://www.instagram.com/khenetic.ashh/" target="_blank" class="social-icon">
+                <a href="https://www.instagram.com/khenetic.ashh/" target="_blank" rel="noopener noreferrer" class="social-icon">
                     <i class="fab fa-instagram"></i>
                 </a>
             </div>
@@ -402,6 +448,11 @@
         <footer>
             <p>&copy; <span id="year"></span> Limos, Khen Ashley D. All rights reserved.</p>
         </footer>
+
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
+
+        <button id="scroll-top-btn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 
         <script src="script.js"></script>
     </body>
