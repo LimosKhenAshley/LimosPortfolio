@@ -6,7 +6,7 @@
   let ringX = 0,  ringY = 0;
   let magnetTarget = null;
 
-  const MAGNETIC_SELECTOR = 'a, button, .filter-btn, .about-tab, .project-card, .social-icon, .edu-prev, .edu-next, #scroll-top-btn, .floating-contact-btn';
+  const MAGNETIC_SELECTOR = 'a, button, .filter-btn, .about-tab, .project-card, .social-icon, #scroll-top-btn, .floating-contact-btn';
   const MAGNETIC_STRENGTH = 0.35;
   const MAGNETIC_RADIUS   = 80;
 
@@ -528,72 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ===== Education Carousel =====
-document.addEventListener('DOMContentLoaded', () => {
-  const track = document.querySelector('.edu-carousel-track');
-  const wrapper = document.querySelector('.edu-carousel-track-wrapper');
-  const prevBtn = document.querySelector('.edu-prev');
-  const nextBtn = document.querySelector('.edu-next');
-
-  // Grab original slides before cloning
-  const origSlides = Array.from(track.children);
-  const total = origSlides.length;
-
-  // Clone first and last for infinite loop
-  const firstClone = origSlides[0].cloneNode(true);
-  const lastClone  = origSlides[total - 1].cloneNode(true);
-  track.appendChild(firstClone);
-  track.insertBefore(lastClone, origSlides[0]);
-
-  // All slides: [lastClone, ...originals, firstClone]
-  const allSlides = Array.from(track.children);
-  let current = 1; // start on first real slide (index 1)
-  let locked = false;
-
-  function slideWidth() {
-    return allSlides[1].getBoundingClientRect().width + 12; // width + gap
-  }
-
-  function moveTo(index, animate) {
-    track.style.transition = animate ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none';
-    track.style.transform = `translateX(${-index * slideWidth()}px)`;
-    allSlides.forEach((s, i) => s.classList.toggle('active', i === index));
-  }
-
-  // Initial position — no animation
-  moveTo(current, false);
-
-  function next() {
-    if (locked) return;
-    locked = true;
-    current++;
-    moveTo(current, true);
-  }
-
-  function prev() {
-    if (locked) return;
-    locked = true;
-    current--;
-    moveTo(current, true);
-  }
-
-  track.addEventListener('transitionend', () => {
-    // Silently jump from clone to real slide
-    if (current === allSlides.length - 1) {
-      current = 1;
-      moveTo(current, false);
-    } else if (current === 0) {
-      current = allSlides.length - 2;
-      moveTo(current, false);
-    }
-    locked = false;
-  });
-
-  nextBtn.addEventListener('click', next);
-  prevBtn.addEventListener('click', prev);
-  window.addEventListener('resize', () => moveTo(current, false));
-});
-
 // ===== About Tabs =====
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.about-tab');
@@ -1025,4 +959,33 @@ document.querySelectorAll('.recognition-card').forEach(card => {
   card.addEventListener('touchstart', () => {
     card.classList.toggle('show-badge');
   }, { passive: true });
+});
+
+// ===== Education Timeline Scroll Animation =====
+document.addEventListener('DOMContentLoaded', () => {
+  const timelineItems = document.querySelectorAll('.edu-timeline-item');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        // Stagger the animation
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateX(0)';
+        }, index * 150);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { 
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  timelineItems.forEach(item => {
+    // Set initial state for animation
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-30px)';
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(item);
+  });
 });
