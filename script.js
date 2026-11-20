@@ -216,12 +216,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const decodingText = document.getElementById('decoding-text');
     const sentences = [
         "Khen Ashley Limos",
-        "IT Specialist",
-        "Full-Stack Developer",
-        "Problem Solver",
+        "IT Graduate & Developer",
+        "C#, Java, Python & Web",
+        "UI/UX Designer",
         "Hackathon Champion",
-        "Lifelong Learner",
-        "Building Solutions"
+        "Building Community Solutions",
+        "Lifelong Learner"
     ];
     let sentenceIndex = 0;
     let charIndex = 0;
@@ -303,7 +303,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
   })
   .catch(error => {
     // Error message
-    status.textContent = 'Failed to send message. Please email me directly at your@email.com';
+    status.textContent = 'Failed to send message. Please try again or reach me through my social media links.';
     status.className = 'error';
     console.error('Error:', error);
   })
@@ -528,51 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ===== About Tabs =====
-document.addEventListener('DOMContentLoaded', () => {
-  const tabs = document.querySelectorAll('.about-tab');
-  const panels = document.querySelectorAll('.about-tab-panel');
-  let ringsAnimated = false;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-
-      tab.classList.add('active');
-      const target = document.getElementById('tab-' + tab.dataset.tab);
-      target.classList.add('active');
-
-      // Trigger rings animation when skills tab opens for the first time
-      if (tab.dataset.tab === 'skills' && !ringsAnimated) {
-        ringsAnimated = true;
-        setTimeout(() => {
-          document.querySelectorAll('.ring-fill').forEach((ring, i) => {
-            const filled = (parseInt(ring.dataset.level) / 100) * 251.2;
-            setTimeout(() => {
-              ring.style.strokeDasharray = `${filled} ${251.2 - filled}`;
-            }, i * 120);
-          });
-        }, 50);
-      }
-    });
-  });
-});
-
-// ===== Circular Progress Rings =====
-document.addEventListener('DOMContentLoaded', () => {
-  // Inject shared SVG gradient
-  const svgDefs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svgDefs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
-  svgDefs.innerHTML = `
-    <defs>
-      <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#1abc9c"/>
-        <stop offset="100%" stop-color="#3498db"/>
-      </linearGradient>
-    </defs>`;
-  document.body.prepend(svgDefs);
-});
 
 function initFloatingImages() {
   const hero = document.querySelector('.hero');
@@ -824,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             
             <input type="text" name="_gotcha" style="display:none">
-            <input type="hidden" name="_next" value="https://yourdomain.com/thanks.html">
+            <input type="hidden" name="_next" value="https://limoskhenashley.github.io/LimosPortfolio/">
             <input type="hidden" name="_subject" value="New message from portfolio!">
             
             <button type="submit" id="modal-submit-btn" class="submit-btn">
